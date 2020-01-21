@@ -6,7 +6,7 @@ To describe the architecture of persona and store configuration files.
 
 ## Architecture
 
-![arthictecure](https://raw.githubusercontent.com/persona-project/persona-core/master/persona-architecture.png)
+![arthictecure](https://raw.githubusercontent.com/persona-project/persona-core/master/.images/persona-architecture.png)
 
 
 
@@ -24,7 +24,7 @@ To describe the architecture of persona and store configuration files.
 1. How to  arrange `persona - ml` module?
 
 2. `Redis` has been chosen.
-> How to choose `MySql`, `HBase` and `Redis`?
->     - `Redis`: the data is easy to lose, but fastest.
->     - `HBase`: data not lose. Is its deployment easy?
->     - `MySql`: too slow.
+> How to choose `MySql`, `HBase` and `Redis`?  
+>     - `Redis`: the data is easy to lose, but fastest.  
+>     - `HBase`: data not lose. Is its deployment easy?  
+>     - `MySql`: too slow.  
