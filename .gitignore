@@ -31,5 +31,5 @@ HELP.md
 ### VS Code ###
 .vscode/
 
-### java ###
-*.class
+### Persona-Core ###
+/persona-core-offline/target/

@@ -6,64 +6,43 @@ import org.apache.spark.sql.{Column, DataFrame, Dataset, Row, SaveMode}
 import org.persona.core.offline.util.{DatasetUtil, GroupUtil}
 
 object Counting {
-  private val userField: Array[String] =
+  private val userFields: Array[String] =
     Array("sex", "birth", "area")
-  private val replyField: Array[String] =
+  private val replyFields: Array[String] =
     Array("anonymous", "countVote", "countComment", "replyTime", "deleted", "tagAgree", "tagTop", "activeFlag")
-  private val postField: Array[String] =
+  private val postFields: Array[String] =
     Array("anonymous", "countVote", "countReply", "countBrowse", "postTime","lastReplyTime",  "deleted", "tagSolve",
       "tagAgree", "tagLector", "tagTop", "activeFlag")
+  private val commentFields: Array[String] =
+    Array("anonymous", "countVote", "commentTime", "deleted", "tagAgree", "tagTop", "activeFlag")
 
-  def countForUser(): Unit = {
-    for (group <- GroupUtil.map.keys; column <- userField)
+  def countForUser(): Unit =
+    for (group <- GroupUtil.map.keys; column <- userFields)
       Counting.count(
         DatasetUtil.userDataset.toDF,
         group, "user", column
       )
-  }
 
-  def countForReply(): Unit = {
-    for (group <- GroupUtil.map.keys; column <- replyField)
+  def countForReply(): Unit =
+    for (group <- GroupUtil.map.keys; column <- replyFields)
       Counting.count(
         DatasetUtil.replyWithUser,
         group, "reply", column
       )
-  }
 
-  def countForPost(): Unit = {
-    for (group <- GroupUtil.map.keys; column <- postField) {
-      try {
-        Counting.count(
-          DatasetUtil.postWithUser,
-          group, "post", column
-        )
-      } catch {
-        case e: Exception => {
-          e.printStackTrace()
-          println(s"$group - $column")
-          System.exit(1)
-        }
-      }
-    }
-  }
+  def countForPost(): Unit =
+    for (group <- GroupUtil.map.keys; column <- postFields)
+      Counting.count(
+        DatasetUtil.postWithUser,
+        group, "post", column
+      )
 
-  /** TODO */
-  def countForComment(): Unit = {
-    for (group <- GroupUtil.map.keys; column <- replyField) {
-      try {
-        Counting.count(
-          DatasetUtil.replyWithUser,
-          group, "reply", column
-        )
-      } catch {
-        case e: Exception => {
-          e.printStackTrace()
-          println(s"$group - $column")
-          System.exit(1)
-        }
-      }
-    }
-  }
+  def countForComment(): Unit =
+    for (group <- GroupUtil.map.keys; column <- commentFields)
+      Counting.count(
+        DatasetUtil.commentWithUser,
+        group, "comment", column
+      )
 
   def count(dataFrame: DataFrame, group: String, table: String, column: String): Unit = dataFrame
     .filter(GroupUtil.getGroupFilter(group))
