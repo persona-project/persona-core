@@ -9,5 +9,7 @@ object Runner extends App {
   // 9268
   // Counting.countForReply()
   // 495
+  // Counting.countForPost()
+  // 1115
 
 }

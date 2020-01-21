@@ -6,8 +6,13 @@ import org.apache.spark.sql.{Column, DataFrame, Dataset, Row, SaveMode}
 import org.persona.core.offline.util.{DatasetUtil, GroupUtil}
 
 object Counting {
-  private val userField: Array[String] = Array("sex", "birth", "area")
-  private val replyField: Array[String] = Array("anonymous", "countVote", "countComment", "replyTime", "deleted", "tagAgree", "tagTop", "activeFlag")
+  private val userField: Array[String] =
+    Array("sex", "birth", "area")
+  private val replyField: Array[String] =
+    Array("anonymous", "countVote", "countComment", "replyTime", "deleted", "tagAgree", "tagTop", "activeFlag")
+  private val postField: Array[String] =
+    Array("anonymous", "countVote", "countReply", "countBrowse", "postTime","lastReplyTime",  "deleted", "tagSolve",
+      "tagAgree", "tagLector", "tagTop", "activeFlag")
 
   def countForUser(): Unit = {
     for (group <- GroupUtil.map.keys; column <- userField)
@@ -18,6 +23,32 @@ object Counting {
   }
 
   def countForReply(): Unit = {
+    for (group <- GroupUtil.map.keys; column <- replyField)
+      Counting.count(
+        DatasetUtil.replyWithUser,
+        group, "reply", column
+      )
+  }
+
+  def countForPost(): Unit = {
+    for (group <- GroupUtil.map.keys; column <- postField) {
+      try {
+        Counting.count(
+          DatasetUtil.postWithUser,
+          group, "post", column
+        )
+      } catch {
+        case e: Exception => {
+          e.printStackTrace()
+          println(s"$group - $column")
+          System.exit(1)
+        }
+      }
+    }
+  }
+
+  /** TODO */
+  def countForComment(): Unit = {
     for (group <- GroupUtil.map.keys; column <- replyField) {
       try {
         Counting.count(
@@ -33,13 +64,6 @@ object Counting {
       }
     }
   }
-
-  def countAsDataFrame(dataFrame: DataFrame, group: String, column: String): DataFrame = dataFrame
-    .filter(GroupUtil.getGroupFilter(group))
-    .groupBy(column)
-    .count()
-    .na.fill("unknown")
-    .na.drop
 
   def count(dataFrame: DataFrame, group: String, table: String, column: String): Unit = dataFrame
     .filter(GroupUtil.getGroupFilter(group))

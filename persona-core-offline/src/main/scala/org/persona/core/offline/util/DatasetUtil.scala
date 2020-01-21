@@ -26,15 +26,21 @@ object DatasetUtil {
   import session.implicits._
   val userDataset: Dataset[User] = camelDataFrame("User").as[User]
   val replyDataset: Dataset[Reply] = camelDataFrame("Reply").as[Reply]
+  val postDataset: Dataset[Post] = camelDataFrame("Post").as[Post]
+  val commentDataset: Dataset[Comment] = camelDataFrame("Comment").as[Comment]
 
   val userDataFrame: DataFrame = userDataset.toDF.withColumnRenamed("id", "uid")
   val replyDataFrame: DataFrame = replyDataset.toDF
+  val postDataFrame: DataFrame = postDataset.toDF
+  val commentDataFrame: DataFrame = commentDataset.toDF
 
   val replyWithUser: DataFrame = replyDataFrame
     .join(userDataFrame, replyDataFrame("replyerId") === userDataFrame("uid"))
+  val postWithUser: DataFrame = postDataFrame
+    .join(userDataFrame, postDataFrame("posterId") === userDataFrame("uid"))
+  val commentWithUser: DataFrame = commentDataFrame
+    .join(userDataFrame, commentDataFrame("commentorId") === userDataFrame("uid"))
 
-  // val postDataset: Dataset[Post] = camelDataFrame("Post").as[Post]
-  // val commentDataset: Dataset[Comment] = camelDataFrame("Comment").as[Comment]
 
   /**
    * Load the table using camel field name.
