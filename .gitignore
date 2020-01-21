@@ -30,3 +30,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### Persona-Core ###
+/persona-core-offline/target/
