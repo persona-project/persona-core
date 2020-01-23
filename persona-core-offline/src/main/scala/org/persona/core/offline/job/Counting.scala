@@ -4,6 +4,7 @@ import java.util
 
 import org.apache.spark.sql.{Column, DataFrame, Dataset, Row, SaveMode}
 import org.persona.core.offline.util.{DatasetUtil, GroupUtil}
+import org.apache.spark.sql.functions._
 
 object Counting {
   private val userFields: Array[String] =
@@ -44,10 +45,25 @@ object Counting {
         group, "comment", column
       )
 
-  def count(dataFrame: DataFrame, group: String, table: String, column: String): Unit = dataFrame
+  def countForAgeField(): Unit =
+    for (group <- GroupUtil.map.keys)
+      DatasetUtil.userDataFrame
+        .filter(GroupUtil.getGroupFilter(group))
+        .groupBy(floor(months_between(current_date, col("birth")).divide(12)).alias("age"))
+        .count
+        .na.fill("unknown")
+        .na.drop
+        .write
+        .format("org.apache.spark.sql.redis")
+        .option("table", s"$group:user:age")
+        .option("key.column", "age")
+        .mode(SaveMode.Overwrite)
+        .save
+
+  private def count(dataFrame: DataFrame, group: String, table: String, column: String): Unit = dataFrame
     .filter(GroupUtil.getGroupFilter(group))
     .groupBy(column)
-    .count()
+    .count
     .na.fill("unknown")
     .na.drop
     .write
@@ -55,6 +71,6 @@ object Counting {
     .option("table", s"$group:$table:$column")
     .option("key.column", column)
     .mode(SaveMode.Overwrite)
-    .save()
+    .save
 
 }
