@@ -7,13 +7,14 @@ import org.persona.core.offline.job.Counting
 
 object Runner extends App {
 
-  // Total: 11076
+  // Total: 11326
   val start: Instant = Instant.now
   Counting.countForUser()     // 9268
+  Counting.countForAgeField() // 250
   Counting.countForReply()    // 495
   Counting.countForPost()     // 1115
   Counting.countForComment()  // 198
 
   println("Time cost:" + Duration.between(start, Instant.now).getSeconds + "s")
-  // about 108s
+  // about 116s
 }
