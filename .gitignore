@@ -33,4 +33,5 @@ HELP.md
 
 ### Persona-Core ###
 /persona-core-offline/target/
+/persona-core-realtime/target/
 /out/
