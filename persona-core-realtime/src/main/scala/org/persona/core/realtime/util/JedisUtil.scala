@@ -4,7 +4,7 @@ import redis.clients.jedis.{Jedis, JedisPool, JedisPoolConfig}
 
 object JedisUtil {
 
-  val EXPIRE: Int = 6
+  val EXPIRE: Int = 30
 
   val jedisPoolConfig = new JedisPoolConfig()
   val jedisPool = new JedisPool(jedisPoolConfig, "localhost", 6379, 1000, "redis")
