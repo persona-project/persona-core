@@ -4,6 +4,11 @@ HELP.md
 !**/src/main/**
 !**/src/test/**
 
+### persona ###
+/persona-core-deploy/persona-data.sql
+/persona-core-deploy/persona-core-offline.jar
+/persona-core-deploy/persona-core-realtime.jar
+
 ### STS ###
 .apt_generated
 .classpath
