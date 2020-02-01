@@ -1,0 +1,10 @@
+[Unit]
+Description=The spark component in persona for offline data processing
+
+[Service]
+Type=simple
+User=root
+ExecStart=java -jar /opt/persona/persona-core-offline.jar
+
+[Install]
+WantedBy=multi-user.target

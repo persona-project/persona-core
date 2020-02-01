@@ -5,16 +5,18 @@ import java.time.{Duration, Instant}
 import org.persona.core.offline.job.Counting
 
 
-object Runner extends App {
+object Runner {
 
-  // Total: 11326
-  val start: Instant = Instant.now
-  Counting.countForUser()     // 9268
-  Counting.countForAgeField() // 250
-  Counting.countForReply()    // 495
-  Counting.countForPost()     // 1115
-  Counting.countForComment()  // 198
+  def main(args: Array[String]): Unit = {
+    // Total: 11326
+    val start: Instant = Instant.now
+    Counting.countForUser()     // 9268
+    Counting.countForAgeField() // 250
+    Counting.countForReply()    // 495
+    Counting.countForPost()     // 1115
+    Counting.countForComment()  // 198
 
-  println("Time cost:" + Duration.between(start, Instant.now).getSeconds + "s")
-  // about 116s
+    println("Time cost:" + Duration.between(start, Instant.now).getSeconds + "s")
+    // about 116s
+  }
 }

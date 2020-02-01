@@ -86,8 +86,8 @@
         <executions>
           <execution>
             <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
+              <!-- goal>compile</goal -->
+              <!-- goal>testCompile</goal -->
             </goals>
             <configuration>
               <args>
@@ -122,11 +122,37 @@
           <execution>
             <id>test</id>
             <goals>
-              <goal>test</goal>
+              <!-- goal>test</goal -->
             </goals>
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <mainClass>org.persona.core.realtime.StreamingRunner</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+
     </plugins>
   </build>
 </project>

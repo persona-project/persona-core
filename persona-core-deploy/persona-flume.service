@@ -1,0 +1,10 @@
+[Unit]
+Description=A flume component in persona
+
+[Service]
+Type=simple
+User=root
+ExecStart=/opt/persona/flume/bin/flume-ng agent -n a1 -c /opt/persona/flume/conf/ -f /opt/persona/flume/job/file-flume-spark.conf -Dflume.root.logger=INFO,console
+
+[Install]
+WantedBy=multi-user.target
