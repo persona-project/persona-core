@@ -4,7 +4,7 @@ Description=A spark streaming component in persona for realtime data processing
 [Service]
 Type=simple
 User=root
-ExecStart=java -jar /opt/persona/persona-core-realtime.jar
+ExecStart=/usr/bin/java -jar /opt/persona/persona-core-realtime.jar
 
 [Install]
 WantedBy=multi-user.target

@@ -4,7 +4,7 @@ Description=The web backend in persona provides api
 [Service]
 Type=simple
 User=root
-ExecStart=java -jar /opt/persona/persona-backend.jar
+ExecStart=/usr/bin/java -jar /opt/persona/persona-backend.jar
 
 [Install]
 WantedBy=multi-user.target
